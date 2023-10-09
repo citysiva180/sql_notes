@@ -1,0 +1,1388 @@
+##################################################################
+
+███████╗ ██████╗ ██╗     
+██╔════╝██╔═══██╗██║     
+███████╗██║   ██║██║     
+╚════██║██║▄▄ ██║██║     
+███████║╚██████╔╝███████╗
+╚══════╝ ╚══▀▀═╝ ╚══════╝
+
+##################################################################                           
+Course Name : Complete SQL 
+mastery 
+Tutor : Mosh Hamedani 
+##################################################################  
+                       
+
+=================================
+        Course Topics :  
+=================================
+
+- Introduction 
+- Retrieving Data from a Single Table 
+- Retrieving Data from Multiple Tables 
+- Inserting, Updating and Deleting Data 
+- Summarizing Data 
+- Writing Complex Query 
+- Essential MySQL functions 
+- Views 
+- Stored Procedures 
+- Triggers and Events 
+- Transactions and Concurrency 
+- Data Types 
+- Designing Databases 
+- Indexing for High Performance 
+- Securing Databases 
+
+=================================
+        Discussions:  
+=================================
+
+section - 1 :CRUD syntaxes 
+section - 2 :Summarizing data, Writing complex queries, 
+             Built-in functions, Views and Stored Procedures
+section - 3 :Triggers, events, transactions and Concurrency
+section - 4 :Database Design 
+section - 5 :Indexing for high performances | Essential for high 
+             performing databases 
+section - 6 :Securing Databases 
+
+==================================================================
+The Select Section - Retrieving Data from a Single Table 
+==================================================================
+
+-----------------
+The SELECT CLAUSE 
+-----------------
+
+To select a database use 
+
+Selecting the database 
+
+    USE database_name;
+ 
+
+Sample select statement 
+
+    SELECT 
+        column_names or wild_card  
+    FROM 
+        table_name
+    WHERE
+        where_condition
+    ORDER BY
+        column_name;
+
+
+Sample select statement with expressions
+
+    SELECT 
+        first_name, 
+        last_name, 
+        points,
+        (points + 100) * 2.32 -- arithematic expressions could be used here
+                    -- the arithematic operators have BODMAS rule applied on them
+    FROM 
+        customers
+
+Notes : 
+
+- Ensure to close your statements with semi-colon if you are planning to add more statements 
+  in the same sql script file 
+- Expressions could be passed in Select Statement
+- arithematic expressions could be added in select clauses 
+- arithematic expressions in select clause follows BODMAS Rules 
+- alias for columns could be given using "AS" keyword 
+- alias for columns with space should be given with double quotes to accomodate spaces
+
+-----------------
+The WHERE CLAUSE 
+-----------------
+
+A Sample Select Statement with Where clause 
+
+    select 
+        first_name
+    from 
+        customers 
+    where 
+        points > 3000
+
+
+A Sample Select Statement with Where clause 
+
+
+Notes : 
+
+- Where clauses makes use of the assignment operators 
+- Assignment operators include <,>,<=,>=,=, != 
+- For any value in a where clause you need to use double quotes to enclose them 
+- Values could depend on the data type. If you are using a number data type you need 
+  to use the number in the sql script. You don't have to enclose it in double quotes 
+
+-------------------------
+LOGICAL OPERATORS IN SQL 
+-------------------------
+
+A Sample Statement with a Logic operator 
+
+    select 
+        *
+    from
+        customers 
+    where not
+        birth_date > '1990-01-01'
+    or 
+        (points > 1000
+    and 
+        state = 'VA')
+
+Notes :
+
+- Logical operators include AND, OR and NOT 
+- The AND operator always evaluates first
+- The OR will check if either of the statement are true to execute 
+- NOT helps in negating the values
+- The opposite of AND is OR 
+- Negate will bring the opposite of all logical operators!
+
+-------------------------
+THE "IN" OPERATOR IN SQL
+-------------------------
+
+A Sample Statement with In Operator
+
+    select 
+        *
+    from
+        customers 
+    where 
+        state 
+    in 
+        ('VA','FL','GA')
+
+using NOT operators with IN operator 
+
+    select 
+        *
+    from
+        customers 
+    where 
+        state 
+    not in 
+        ('VA','FL','GA')
+
+Notes : 
+
+- OR operator combines multiple conditions. 
+- In SQL Strings cannot be combines in a boolean operation with Logical Operators 
+- In order to bring them all together use the "IN" operator
+- The NOT operator could be combines to get a negated result in the sql statement
+
+-----------------------------
+THE "BETWEEN" OPERATOR IN SQL
+-----------------------------
+
+A Sample Between Statement 
+
+    select 
+        *
+    from
+        customers 
+    where 
+        points 
+    between 
+        1000 and 3000
+
+Notes : 
+
+- Instead of using multiple and to make the statement verbose 
+you could use the BETWEEN operator to simplify your results 
+within a condition 
+
+-----------------------------
+THE "LIKE" OPERATOR IN SQL
+-----------------------------
+
+The Like Operator helps in matching strings to a 
+specific string pattern 
+
+    select 
+        *
+    from
+        customers 
+    where 
+        last_name 
+    like 
+        '%b%'
+
+A Select Statement with underscore to match pattern 
+
+    select 
+        *
+    from
+        customers 
+    where 
+        last_name 
+    like 
+        '_____y'
+
+Another form to use underscore values 
+
+    select 
+        *
+    from
+        customers 
+    where 
+        last_name 
+    like 
+        'b____y'
+
+
+Notes : 
+
+- use the % sign to indicate any number of character
+- to match patterns in-between strings use the %string% option 
+- By using an underscore you could find strings ending with some value 
+- remember when you are using underscore, you should know EXACTLY HOW MANY CHARACTERS 
+  you are working with 
+
+---------------------------------
+USING REGULAR EXPRESSIONS IN SQL 
+---------------------------------
+
+Regular Expressions are very powerful tool to identify 
+data string patterns as well as number patterns. 
+
+
+A Sample statement with Regular Expression 
+
+
+    select 
+        *
+    from
+        customers 
+    where 
+        last_name 
+    regexp                  -- -> Operator is used here 
+        'field'
+
+
+Another sample sql statement where | character is used 
+
+    select 
+	*
+    from
+        customers 
+    where 
+        last_name 
+    regexp
+        'field$|mac|rose'
+
+Another sample sql statement 
+
+    select 
+        *
+    from
+        customers 
+    where 
+        last_name 
+    regexp
+        '[a-i]e'
+
+
+- Generally using regular expression when  you pass the string in single quotes 
+it checks values with that value in a column  
+
+^  - helps in checking in the beginning of a value  example - ^filed 
+$  - helps in checking at the end of a value                - field$
+|  - helps in combining multiple patterns for check         - field|mac 
+[] - helps in checking multiple characters enclosed in the bracket - '[ame]e' - checks for ae, me or ee 
+     you could also add the 'e' before bracket to check ea, em or ee 
+[a-h] - will check all the characters from a to h 
+[azAZ09] - will check every character except special characters
+
+--------------------
+NULL OPERATOR IN SQL 
+--------------------
+
+Null operators helps a lot with finding empty values 
+By using null you could find the missing values in a column
+
+A sample null column 
+
+    SELECT 
+        *
+    FROM
+        customers 
+    WHERE 
+        phone 
+    IS NULL 
+
+Using a not operator will help in finding customers with phone. Initially what
+you get is customers with null and not null 
+
+    SELECT 
+        *
+    FROM
+        customers 
+    WHERE 
+        phone 
+    IS NOT NULL 
+
+------------------------
+ORDER BY OPERATOR IN SQL 
+------------------------
+
+Orderby will help you to sort your customers 
+
+A sample statement with Order By 
+
+select 
+	*
+from
+	customers 
+order by 
+	state asc,	
+	first_name desc
+
+Notes: 
+- Orderby is pretty straight forward by which your values are sorted in ascending or descending 
+- With Orderby you could sort multiple columns on the way 
+- You could also sort the column based on the number from the right side count of the table however
+this is not recommended
+- if you have selected a column where the column is based out of an expression, its still sortable 
+
+
+-------------------
+LIMIT CLAUSE IN SQL 
+-------------------
+
+Limit helps in reducing the number of records which are 
+returned during a query. By giving this clause, you get the value 
+
+    select 
+        *
+    from 
+        customers c 
+    limit
+        5
+
+
+You could skip the records and pick the last records. 
+pass the value of rows which you want to skip. 
+
+    select 
+        *
+    from 
+        customers c 
+    limit
+        6,3
+
+The value 6 is known as offset 
+
+Notes: 
+
+- Using the limit will limit the number of records returned but will optimize your queries 
+- You could skip the number of rows by giving the offset value 
+- Ensure to give both so the same could be retrieved 
+
+==========================================================
+The Joins section -  Retrieving Data From Multiple Tables
+==========================================================
+
+Joins help you to join data from multiple tables 
+If all the data is pushed into a single app, it would fail in terms of performance 
+and simplicity. By using multiple tables, the data could be stored efficiently 
+
+A join helps in joining tables together so the data could be viewed as a single data.
+
+Below is a sample join statement. Note this is left join statement. 
+
+    select 
+        first_name, 
+        last_name, 
+        order_id,
+        orders.customer_id as "customer_id_orders"
+    from 
+        orders
+    join
+        customers 
+    on 
+        orders.customer_id  = customers.customer_id;
+
+Notes: 
+
+- Joins helps in joining 2 or 3 tables 
+- Using just join will only give you left join 
+- While joining tables, you could use the alias to manage your tables to simplify your syntax 
+- The join syntax has 2 keywords, join and on 
+- Remember, only if the tables which you are joining has columns which are same and the row id is unique
+your join will be successful. Else it will throw error. 
+- If the columns are same between 2 tables and you need to use 1 of those columns in your select clause 
+then you need to mention table from which you need the column. you could mention either of the tables. 
+In this case using a alias will simplify your query from being verbose  
+
+
+------------------------
+Joining Across Databases 
+------------------------
+
+Now, we have joined tables but within the same database. 
+But in real time scenarios, we need to connect 2 tables from 2 different databases 
+To accomplish this we just need to references the databases in the query 
+
+
+A sample join statement which joins data across multiple databases 
+
+    select 
+        *
+    from 
+        order_items oi 
+    join
+        sql_inventory.products p  -- ---> sql_inventory is a different database references here 
+    on 
+        oi.product_id = p.product_id 
+
+Just in case if you are using sql_inventory, then you need to mention the other database which 
+you are having your table references 
+
+
+    use sql_inventory; 
+
+    select 
+        *
+    from 
+        sql_store.order_items oi -- ---> sql_store is a different database references here 
+    join
+        products p  
+    on 
+        oi.product_id = p.product_id 
+
+Notes: 
+
+- Join across databases is easy where you just have to refer to your database in your sql queries 
+- You still could use the alias on your different db tables 
+- If you are in database x ad referring a table from database y, then you don't need to refer database x 
+since database x is your current database. But you should refer your database y for sure. 
+
+
+----------------------------------------------
+Joining a table with itself by using Self-Join
+----------------------------------------------
+
+Self joining is joining a table within itself. This comes handy in many scenarios 
+specially in scenarios where you are looking for employees reporting to other employees 
+within the same organization. 
+
+A sample self join query will use the same join and on statements, 
+except the alias to the same table name will be different. 
+
+Here is an example sql self-join query 
+
+    select 
+        *
+    from 
+        employees e  -- ---? employee table but aliased as e stating as employee 
+    join
+        employees m  -- ---? employee table but aliased as m stating as manager  
+    on 
+        e.reports_to = m.employee_id;
+
+
+referring columns in this table would be like this 
+
+    select 
+        e.employee_id,
+        e.first_name as employee_name,
+        m.first_name as reporting_manager
+    from 
+        employees e 
+    join
+        employees m
+    on 
+        e.reports_to = m.employee_id;
+
+--------------------------------------
+Joining Multiple Tables with SQL Join 
+--------------------------------------
+
+For joining multiple table, you could utilize the below query syntax,
+just add join table as much to join more tables to your query. The rules are same as any join 
+Same unique value columns should be present between 2 tables. 
+
+    select 
+        o.order_id, 
+        o.order_date,
+        c.first_name, 
+        c.last_name, 
+        os.status
+    from 
+        orders o
+    join                                    -- ---> First Join 
+        customers c 
+    on
+        o.customer_id = c.customer_id 
+    join                                    -- ---> Second Join 
+        order_statuses os 
+    on
+        o.status = os.order_status_id;
+
+--------------------------------------
+Joining Multiple Tables with SQL Join 
+--------------------------------------
+
+Assuming that you don't have columns which has value unique but are present in two different 
+tables, you could combine multiple columns to join them creating a complex join. 
+
+select 
+	*
+from 
+	order_items oi 
+join
+	order_item_notes oin 
+on
+	oi.order_id = oin.order_Id              -- ---> Joining by First Column 
+and 
+	oi.product_id = oin.product_id           -- ---> Joining by Second Column 
+
+This above syntax indicates a complex join where joins are made using multiple columns 
+
+---------------------
+Implicit Join in SQL 
+---------------------
+
+Implicit join is nothing but using where clause in your join. With this you could get 
+implicit join. 
+
+    select 
+        *
+    from 
+        orders o , customers c 
+    where 
+        o.customer_id = c.customer_id 
+
+It is advised not to use implicit join much as it has consequences if The
+where clause is not applied. If that being the case, then you get only 2 tables.
+
+---------------------
+Outer Joins in SQL 
+---------------------
+
+The basic joins are inner and outer joins. 
+Now so far we checked out all the inner joins. Now we are checking out the Outer
+join 
+
+So far, inner joins will only give you records, 
+if the match. 
+
+Outer join will give you records, 
+if the criteria is fulfilled or not. 
+
+Outer joins are of 2 types 
+
+based on 2 criteria 
+
+- Left Outer Join 
+- Right Outer Join 
+
+    lets say we have 2 tables x and y 
+
+    if you want the records based on x...then you use a left outer join 
+    if you want the records based on y...then you use a right outer join   
+
+Here is a sample query on outer joins 
+
+    select 
+        c.customer_id,
+        c.first_name, 
+        o.order_id
+    from 
+        customers c 
+    left join                       -- ---> This is the syntax for outer join
+        orders o 
+    on 
+        c.customer_id = o.customer_id 
+    order by 
+        c.customer_id;              -- ---> Ensure to add a customer id here
+
+---------------------------------------
+Joining Multiple Tables with Outer Join
+---------------------------------------
+
+Joining multiple tables using outer join is same as inner join syntax, 
+except maintain the consistency with the type of outer join you are using. 
+Don't use left join and then right join and then left join etc.. 
+Keep using the same join to maintain simplicity and consistency 
+
+
+    select
+        c.customer_id, 
+        c.first_name, 
+        o.order_id,
+        s.shipper_id 
+    from 
+        customers c 
+    left join 
+        orders o                            -- ---> Joining the first table 
+    on 
+        c.customer_id = o.customer_id 
+    left join 
+        shippers s                          -- ---> Joining the second table 
+    on 
+        o.shipper_id = s.shipper_id 
+    order by 
+        c.customer_id 
+
+----------------
+Self-outer Join 
+----------------
+
+Its same as inner join except you are going to use left join in the syntax. 
+Best example would be that it will bring a row for ceo, who is not reporting to any body 
+Now in inner join case, CEO will be excluded since he does not report to anybody and his string 
+will be null. BUt in outer join, it does not case that the condition is fulfilled which will give 
+you the results
+
+    use sql_hr;
+
+    select 
+        e.employee_id,
+        e.first_name, 
+        m.first_name as manager
+    from 
+        employees e
+    left join 
+        employees m 
+    on
+        e.reports_to = m.employee_id 
+
+
+---------------------------------
+The Using Clause to Join 2 tables  
+---------------------------------
+
+Instead of passing the condition for joining 2 tables, you could use the 
+USING clause to join 2 table. But remember, the column names should be the same 
+for this case to work. Else it would not work. 
+
+    select 
+        *
+    from 
+       	orders o 
+    join
+    	customers c
+    using  
+        -- on  c.customer_id = o.customer_id     # instead of this, using clause could be used                                              
+    	customer_id
+
+The same syntax on multiple table joins 
+
+    select 
+        o.order_id,
+        c.first_name 
+    from 
+       	orders o 
+    join
+    	customers c
+    using
+    	(customer_id)
+    join
+    	shippers s 
+    using 
+    	(shipper_id)   
+
+A combo of query with inner and outer join with using clause 
+
+    select 
+        o.order_id,
+        c.first_name, 
+        s.shipper_id as shipment
+    from 
+       	orders o 
+    join
+    	customers c
+    using
+    	(customer_id)
+    left join
+    	shippers s 
+    using 
+    	(shipper_id)
+
+Now if we do have same column in two tables and we need to join them using the using clause 
+you need to pass the second column name in the bracket 
+
+    select 
+        *
+    from 
+        order_items oi 
+    join 
+        order_item_notes oin 
+    using 
+        (order_id, product_id)
+
+-------------
+Natural Joins 
+-------------
+
+Just in case you don't know which columns that the db has to join 2 tables with, 
+you could let the database engine decide on that 
+
+    select 
+        o.order_id, 
+        c.
+    from 
+        orders o
+    natural join customers c  -- ---> Natural Join is used here. 
+
+------------------
+Cross Joins in SQL 
+------------------
+
+A Cross join is similar to an outer join except you have all the values from 
+both x and y in the result table. 
+
+If X has null values, that would be displayed in the result table 
+If Y has null values, that would also be displayed in the result table 
+
+    select 
+        c.first_name as customer, 
+        p.name as product 
+    from
+        customers c 
+    cross join            -- ---> Cross join is used here. 
+        products p 
+    order by 
+        c.first_name 
+
+-------------
+UNIONS in SQL 
+-------------
+
+Now so far, joins only joined two tables by columns. But what if we want to join the tables 
+with rows? Thats where the Unions and intersections come in. 
+
+to use union, you simply have to use its keywords. Remember you need to use it 
+as in the below syntax 
+
+    select 
+        order_id, 
+        order_date, 
+        'Active' as status
+    from 
+        orders o 
+    where 
+        order_date >= '2019-01-01'
+    union
+    select 
+        order_id, 
+        order_date, 
+        'Not Active' as status
+    from 
+        orders o 
+    where 
+        order_date >= '2019-01-01'
+
+Now in a union you could join results from 2 queries. 
+But the count or the number of columns should be the same in both tables. 
+With this you could join rows of tables based on different conditions 
+
+==========================================================
+CRUD Operation Section - Inserting, Updating and Deleting
+==========================================================
+
+---------------------
+Inserting Single row
+---------------------
+
+To insert values in sql database tables, ensures your columns 
+match your values count. Ensure to check the column names and 
+add them properly into your database 
+
+
+Here is a sample syntax for insert statement in sql 
+
+
+    insert into 
+        customers (
+        customer_id,
+        first_name, 
+        last_name, 
+        birth_date, 
+        phone,
+        address, 
+        city, 
+        state,
+        points
+        )
+    values (
+        default, 
+        'john',
+        'smith',
+        '1990-01-01',
+        null, 
+        '23,Glen park',
+        'Los Angeles',
+        'CA',
+        default
+    )
+
+
+In the above query you could see that all your columns are matching to 
+all your rows 
+
+-----------------------
+Inserting Multiple rows
+-----------------------
+
+To insert multiple rows in single column, you could use the below syntax. 
+Incase if you are using 2 columns instead of 1 then you need to appropriately 
+give values to it. 
+
+    insert into 
+        shippers (name)
+    values
+        ("Unilever"),
+        ("Reliance"),
+        ("Pantiene")
+
+Note: 
+    Remember 
+
+        single update on a row with a single column 
+
+            insert into 
+                shippers (name)
+            values
+                ("Unilever"),
+                ("Reliance"),
+                ("Pantiene")
+
+        single update on a row with multiple columns 
+
+            insert into 
+                table (column_1, column_2,column_3)
+            values
+                ("value_1","value_2","value_3"),
+                ("value_1","value_2","value_3"),
+                ("value_1","value_2","value_3"),
+
+-----------------------
+Hierarchial Row Updates 
+-----------------------
+
+You could use the LAST_INSERT_ID() function to retrieve the latest 
+inserted record in your database. Using this record you could 
+
+    insert into
+        orders(
+            customer_id,
+            order_date, 
+            status 
+        )
+    values 
+        (1,'2019-02-02',1);
+        
+    insert into order_items                 -- ---> Using this syntax, you could retrieve what you inserted 
+    values                                  --  and then use it for inserting values in other table for the same record
+        (last_insert_id(),1,1,2.95),
+        (last_insert_id(),2,1,3.95);
+
+Note: 
+
+- You need to be careful with this syntax. Ensure the hierarchical updates are proper. 
+- Its very useful which you want to atomically insert data like a shopping cart. Instead of passing 
+the entire id again and again, you could just retrieve the last saved order list and add a new 
+order to it. 
+- Remember to update the table in the last_insert_id query. See that in the first query you have the orders 
+table and then in the second table you have order_items. 
+
+--------------------------
+Creating a copy of a table 
+--------------------------
+
+To copy a table completely.. use the following syntax 
+
+    create table 
+        new_table_name 
+    as 
+        select 
+            *
+        from 
+            table_to_be_copied
+
+Creating a subset table 
+
+By adding a condition to your table, you could copy the data 
+based on the condition and the records will be copied based on the condition. 
+
+    create table
+        new_table_name 
+    as 
+        select 
+            *
+        from 
+            table_to_be_copied
+        where 
+            column_x > 200
+
+This will copy all the rows where column_x value is greater than 200 
+
+--------------------------
+Updating Records in Table 
+--------------------------
+
+Here is a sample update syntax 
+
+    update 
+        table_name 
+    set 
+        column_1 = value_1, 
+        column_2 = value_2, 
+    where 
+        id = x 
+
+Note: 
+    - Update and set keyword should be used. 
+    - Remember, without ID update will not be effective
+    - ensure to proper 
+
+
+-----------------------------------
+Updating Multiple records in Table 
+-----------------------------------
+
+Its the same syntax except you add multiple ids where the same 
+value has to be updated. 
+However if you are expecting different ids in different places
+that will not work. 
+
+    update 
+        table_name 
+    set 
+        column_1 = value_1, 
+        column_2 = value_2, 
+    where 
+        id in (x,y,z,a,b,c) -- ---> here in all the ids the column_1 and column_2 
+                                    will be updated with value_1 and value_2 respectively
+
+ 
+---------------------------------
+Updating Records using Sub query
+---------------------------------
+
+Sometimes when you don't know the id to which your column has to be 
+updated you could use the below sub-query syntax for the same. 
+
+Here is the sample syntax for the same 
+
+
+    update 
+        table_name_1 
+    set 
+        column_1 = value_1, 
+        column_2 = value_2, 
+    where 
+        id = (
+            select 
+                id
+            from 
+                table_name_2
+            where 
+                name = x
+        )
+        
+In the above example, since we did not know the id 
+we had to use the sub-query syntax getting the id 
+from another table say table_name_2, but we do know 
+what the name_column_value is. Hence it will retrieve the id 
+to which the record will fulfill the where condition 
+
+Incase if your sub-query is going to send back multiple 
+records, then you need to use the IN keyword instead of 
+the "=" symbol as you would need to work with multiple records. 
+
+Here is the syntax for the same 
+
+    update 
+        table_name_1 
+    set 
+        column_1 = value_1, 
+        column_2 = value_2, 
+    where 
+        id in (
+            select 
+                id
+            from 
+                table_name_2
+            where 
+                name in (x,y,z,a,b,c)
+        )
+
+If your updates are very generic then you could directly 
+give your where clause based on a value 
+for example 
+    
+    update 
+        table_name 
+    set 
+        column_1 = value_1, 
+        column_2 = value_2 
+    where 
+        column_3 is null 
+
+As long as column 3 is null the column 1 and 2 will get updated with 
+value 1 and 2 
+
+ 
+------------------------
+Deleting Data in Tables 
+------------------------
+
+Here is a sample syntax for deleting records from 
+table. 
+
+
+original syntax 
+
+    delete from 
+        table_name  
+    where 
+        id = x 
+
+syntax with subquery 
+
+    delete from 
+        table_name_1  
+    where 
+        id = (
+            select 
+                *
+            from 
+                table_name_2 
+            where 
+                name = "x" 
+        ) 
+
+SECTION COMPLETE :-)
+
+==========================================================
+Aggregation Section - Group by, Having and Roll Up clauses 
+==========================================================
+
+
+---------------
+SQL Aggregation
+---------------
+
+Some Aggregate functions in sql is listed in the below syntax 
+
+    select 
+        max(invoice_total) as highest,
+        min(invoice_total) as lowest,
+        avg(invoice_total) as average,
+        sum(invoice_total) as total,
+        count(distinct invoice_total) as number_of_invoices
+    from 
+        invoices i 
+
+Note: 
+- Aggregate does not consider null value for computation 
+- Aggregate will also not consider unique values for computation
+- to add unique values you will need to use the distinct keyword
+- If you are using count function and you need proper records, then you will need 
+to use the wild card on it. Which is 
+
+    select    
+        count(*)
+    from 
+        table_name
+
+    which will give all the invoices. 
+
+----------------------
+GROUP BY Clause in SQL  
+----------------------
+
+SQL Group by will help you to group data based on a category 
+By grouping data, Aggregation could be done for a individual / unique 
+sub-set of data within a table. 
+
+The group by clause could come only between where and order by clauses 
+It cannot be anywhere in between 
+
+    select 
+        client_id, 
+        sum(invoice_total) as total_sales
+    from
+        invoices 
+    where 
+        invoice_date >= '2019-07-01'
+    group by 
+        client_id 
+    order by 
+        total_sales desc 
+
+Now the aggregation for sum of invoice total will come for individual 
+clients giving us how much money the client has spent in sum total. 
+
+Grouping Multiple columns. 
+
+    select 
+        state, 
+        city,
+        sum(invoice_total) as total_sales
+    from
+        invoices
+    join
+        clients c 
+    using (client_id)
+    group by 
+        state, city;
+
+
+--------------------
+HAVING Clause in SQL 
+--------------------
+
+The having clause is similar to where, except, 
+when you use having the condition gets applied 
+after the grouping had happened. 
+
+Incase of where clause, you filter the data and then 
+group your values, incase of having you group your values 
+and then filter your data based on the groups 
+
+Here is an example query on the same. 
+
+    select 
+        client_id, 
+        sum(invoice_total)as total_sales, 
+        count(*) as number_of_invoices 
+    from 
+        invoices 
+    group by 
+        client_id 
+    having 
+        total_sales > 500 and number_of_invoices > 5  
+
+
+
+-----------------------
+ROLL UP operator in SQL 
+-----------------------
+
+So instead of explicitly going through columns 
+and ensuring we are using the apply clause etc, 
+we could go ahead and use the roll up options. 
+Roll up will help you in aggregate values on the grouping 
+without explicitly using the having clause 
+
+    select 
+        client_id, 
+        sum(invoice_total) as total_sales 
+    from 
+        invoices i 
+    join 
+        clients c 
+    using 
+        (client_id)
+    group by 
+        state, city with rollup 
+
+============================================================
+SUBQUERY SECTION - Writing Complex Queries using SUB QUERIES
+============================================================
+
+-----------------
+BASIC SUB QUERIES
+-----------------
+
+Sub queries helps you to find values when you conditions are not directly known. 
+In the below case we don't know what is the unit price of product id 3 but we need to 
+get the data based on that unit price. What we do know is that products table has the 
+detail, but for some reason we could not access the table. The best way would be to 
+get the unit price from the table and use that price in our where condition 
+
+This is where sub-queries come into picture as shown below 
+
+    select
+        *
+    from 
+        products p
+    where 
+        unit_price > (
+            select                            -- ---> Second Query Starts here 
+                unit_price
+            from 
+                products 
+            where
+                product_id = 3
+        )
+
+--------------------------
+IN OPERATOR IN SUB QUERIES 
+--------------------------
+
+The in operator will help you to find items based on a list of items. 
+Assume that you want to find products in a inventory, that was not sold 
+Now what we do have is a list of items sold in one table and products 
+in another table. There is no column in products table where a column has whether 
+the item got sold or not. 
+
+So the only way to find it is negating the products sold in products table. 
+Negating in the sense, considering products that are not sold. 
+
+This could be achieved by using the IN operator. The sample query is shown 
+below 
+
+    select 
+        *
+    from 
+        products 
+    where 
+        product_id not in (
+        select distinct
+            product_id 
+        from 
+            order_items 
+    )
+
+--------------------
+SUB QUERIES VS JOIN  
+--------------------
+
+Some times we could achieve the same results of join using sub-query 
+
+    select 
+        *
+    from 
+        clients
+    where 
+        client_id not in 
+        (
+        select distinct client_id
+        from
+            invoices 
+        )
+
+The same query could be achieved with Joins 
+
+    select 
+        *
+    from 
+        clients c 
+    left join
+        invoices 
+    using 
+        (client_id)
+    where 
+        invoice_id is null
+
+---------------------------------
+ALL Keywords in Sub-Queries; SQL  
+---------------------------------
+
+Now if your sub-query returns a list of values and you wish to compare the result 
+of the list of values, then you could go for SQL Sub-queries. Assume that you are trying to 
+find a fruits which are not from a list of fruits. 
+
+Example 
+    - apple 
+    - orange 
+    - banana 
+    - mango 
+    - papaya 
+    - strawberry 
+    - mangoostan 
+    - rambootan 
+    - star fruit 
+    - kiwi 
+
+
+Now I have Mr. Benji who bought 
+    - apple 
+    - orange
+    - mango 
+
+So I need the list fruits which Mr. Benji had not bought. 
+Thats where the ALL keyword in sub-query will help 
+
+Here is my query 
+
+select 
+    *
+from  
+    fruits 
+where 
+    fruit_bought not in all(
+        select 
+            fruits 
+        from 
+            customer_purchases 
+        where 
+            first_name = "benji"
+    )
+
+Now. if I did not use all then this would throw an error. 
+With the usage of this syntax i ensured I consider all the 
+fruits which Mr. Benji had bought. The Inverse of this is 
+ANY 
+
+
+    select 
+        *
+    from 
+        invoices 
+    where 
+        invoice_total > all (
+            select 
+                invoice_total 
+            from 
+                invoices 
+            where 
+                client_id = 3
+        )
+
+---------------------------------
+ANY keyword in SQL - SUB QUERIES  
+---------------------------------
+
+Here is a sample query which returns the clients 
+who have more than 2 purchases 
+
+select 
+	*
+from 
+	clients c 
+where 
+	client_id in 
+	(
+		select 
+			client_id 
+		from 
+			invoices 
+		group by 
+			client_id 
+		having count(*) > 2
+	)
+
+The same could be written in the below format 
+The = ANY will help you compare results and if any of the item 
+in the result list matches the main query. In the below case 
+it consides all the clients who have made more than 2 purchases 
+
+select 
+	*
+from 
+	clients c
+where 
+	client_id = ANY(
+	select 
+		client_id
+	from 
+		invoices 
+	group by 
+		client_id 
+	having count(*) >= 2
+	)
