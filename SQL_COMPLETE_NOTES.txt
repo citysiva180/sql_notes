@@ -1484,9 +1484,28 @@ WHERE
 ESSENTIAL MYSQL FUNCTION SECTION - Using Inbuilt functions
 ==========================================================
 
+------------------------
+Numeric Functions in SQL 
+------------------------
+
 SELECT ROUND(5.7435,2);                 Output :  5.74                      | Rounds values to indicated decimal points 
 SELECT TRUNCATE(5.7435,2);              Output :  5.74                      | Truncates values to 2 decimal points 
 SELECT CEILING(5.7435,2);               Output :  6                         | Ceiling calculates maximum value 
 SELECT FLOOR(5.2);                      Output : 5                          | Floor Calculates to Lower values 
 SELECT ABS(-5.2);                       Output : 5.2                        | Absolute value gives positive value even when negative values 
 SELECT RAND();                          Output : '0.17898486385027398'      | Produces Random value every time
+
+------------------------
+String Functions in SQL 
+------------------------
+
+
+SELECT LENGTH("Sky");                   Output : 3                          | Gives the count of character, works similar to Python Len function 
+SELECT UPPER("Sky");                    Output : Sky                        | Converts the Character to Upper Case Letters 
+SELECT LOWER("Sky");                    Output : Sky                        | Converts the characters to Lower case 
+SELECT LTRIM('  Sky');                  Output : Sky                        | Removes unwanted spaces infront of the string 
+SELECT RTRIM('Sky   ');                 Output : Sky                        | Removes unwanted spaces end of the string 
+SELECT TRIM                             Output : Sky                        | Generally removes white spaces front and back 
+SELECT LEFT("Kim Kardashian", 7);       Output : 'Kim Kar'                  | Selects String from Left with Specified Characters 
+SELECT SUBSTRING("Kim Kardashian", 3,8);Output : 'm Kardas'                 | Gets String from Position A to B 
+SELECT SUBSTRING("Kim Kardashian", 3);  Output : 'm Kardashian'             | Gets the String from position 3 until the end
