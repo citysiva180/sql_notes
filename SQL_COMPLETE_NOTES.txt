@@ -1370,7 +1370,7 @@ where
 The same could be written in the below format 
 The = ANY will help you compare results and if any of the item 
 in the result list matches the main query. In the below case 
-it consides all the clients who have made more than 2 purchases 
+it considers all the clients who have made more than 2 purchases 
 
 select 
 	*
@@ -1386,3 +1386,96 @@ where
 		client_id 
 	having count(*) >= 2
 	)
+
+------------------------------
+Co-Related Sub Queries in SQL 
+------------------------------
+
+If the outer sub query has an intervention in the inner 
+sub-query, then its known as co-related sub query, because 
+they are co-related. 
+
+Here is a sample SQL query for the same 
+
+SELECT 
+	*
+FROM 
+	employees e
+WHERE 
+	salary > (
+    SELECT AVG (salary)
+    FROM 
+		employees 
+	WHERE 
+		office_id = e.office_id
+        );
+
+---------------------------
+The EXISTS Operator in SQL 
+---------------------------
+
+Using the Existing Operator, you could get results 
+fulfilling your condition. But using EXISTS operator, 
+you efficiently get results. Using a sub query with IN 
+keyword would return a lot of results. By using a 
+SUB-QUERY with EXISTS operator not all the results are 
+returned. 
+
+SELECT 
+	*
+FROM 
+	clients
+WHERE EXISTS (
+	SELECT 
+		client_id 
+	FROM
+		invoices 
+	WHERE 
+		client_id = c.client_id
+	)
+
+---------------------------------
+ SUB-QUERIES in SELECT STATEMENT 
+---------------------------------
+
+By using Sub-Queries in SELECT statements 
+we have the option to find results based on 
+certain condition. Suppose we need the average sales of 
+customers from the united states region and then compare that
+with the rest of the customers in all region, then our go to method
+would be a sub query in the select statement. 
+
+
+SELECT 
+	invoice_id, 
+    invoice_total, 
+    (SELECT 
+		AVG (invoice_total)
+	FROM 
+		invoices) as invoice_average, 
+	(SELECT invoice_average) - invoice_total AS differences_in_invoice
+FROM 
+	invoices
+
+
+-------------------------------
+ SUB-QUERIES in FROM STATEMENT 
+-------------------------------
+
+By using a sub-query in a FROM statement, you create a new 
+table full of selected columns and then you use that table for 
+your calculation and computation
+
+SELECT 
+	*
+FROM 
+	(
+		SELECT client_id, name, 
+            (SELECT SUM(invoice_total) FROM invoices WHERE client_id = c.client_id) AS total_sales,
+			(SELECT AVG (invoice_total) FROM invoices) AS invoice_average,
+			(SELECT total_sales - average) as difference
+        FROM 
+			clients c
+    ) AS sales_summery 
+WHERE 
+	total_sales IS NOT NULL ;
