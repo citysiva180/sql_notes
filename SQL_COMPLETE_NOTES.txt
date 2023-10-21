@@ -1499,13 +1499,53 @@ SELECT RAND();                          Output : '0.17898486385027398'      | Pr
 String Functions in SQL 
 ------------------------
 
+SELECT LENGTH("Sky");                               Output : 3                          | Gives the count of character, works similar to Python Len function 
+SELECT UPPER("Sky");                                Output : Sky                        | Converts the Character to Upper Case Letters 
+SELECT LOWER("Sky");                                Output : Sky                        | Converts the characters to Lower case 
+SELECT LTRIM('  Sky');                              Output : Sky                        | Removes unwanted spaces infront of the string 
+SELECT RTRIM('Sky   ');                             Output : Sky                        | Removes unwanted spaces end of the string 
+SELECT TRIM                                         Output : Sky                        | Generally removes white spaces front and back 
+SELECT LEFT("Kim Kardashian", 7);                   Output : 'Kim Kar'                  | Selects String from Left with Specified Characters 
+SELECT SUBSTRING("Kim Kardashian", 3,8);            Output : 'm Kardas'                 | Gets String from Position A to B 
+SELECT SUBSTRING("Kim Kardashian", 3);              Output : 'm Kardashian'             | Gets the String from position 3 until the end
+SELECT LOCATE('n', 'Kindergarten');                 Output : 3                          | Get the character location for the given character 
+SELECT REPLACE('Kintergarten', 'garten','garden');  Output : Kindergarden               | Replaces values in a string 
+SELECT CONCAT('Thomas','','Anderson');              Output : Thomas Anderson            | Concatenates strings / Joins 2 strings 
 
-SELECT LENGTH("Sky");                   Output : 3                          | Gives the count of character, works similar to Python Len function 
-SELECT UPPER("Sky");                    Output : Sky                        | Converts the Character to Upper Case Letters 
-SELECT LOWER("Sky");                    Output : Sky                        | Converts the characters to Lower case 
-SELECT LTRIM('  Sky');                  Output : Sky                        | Removes unwanted spaces infront of the string 
-SELECT RTRIM('Sky   ');                 Output : Sky                        | Removes unwanted spaces end of the string 
-SELECT TRIM                             Output : Sky                        | Generally removes white spaces front and back 
-SELECT LEFT("Kim Kardashian", 7);       Output : 'Kim Kar'                  | Selects String from Left with Specified Characters 
-SELECT SUBSTRING("Kim Kardashian", 3,8);Output : 'm Kardas'                 | Gets String from Position A to B 
-SELECT SUBSTRING("Kim Kardashian", 3);  Output : 'm Kardashian'             | Gets the String from position 3 until the end
+
+---------------------
+Date Functions in SQL 
+---------------------
+
+Current Date, Current Time and Now functions : 
+
+Query : SELECT NOW(), CURDATE(), CURTIME()                  
+
+Output : '2023-10-19 09:10:08', '2023-10-19', '09:10:08'
+
+SELECT YEAR(NOW());
+SELECT MONTH(NOW());
+SELECT DAY(NOW());
+SELECT HOUR(NOW());
+SELECT MINUTE(NOW());
+SELECT SECONDS(NOW());
+
+Using the Dayname function: 
+
+SELECT DAYNAME(NOW());
+SELECT MONTHNAME(NOW());
+
+Using Extract Functions to Extract date string: 
+
+SELECT EXTRACT(YEAR FROM NOW()); | 2023 
+
+
+A Sample query with SQL Date Function 
+
+use sql_store;
+SELECT 
+	*
+FROM 
+	orders
+WHERE YEAR(order_date) = YEAR(NOW());
+
